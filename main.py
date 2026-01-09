@@ -1,35 +1,25 @@
-def zetPixel(x: number, y: number, hue: number, saturation: number, luminosity: number):
-    global nummer, X
-    nummer = Y % 2
+def convertToNummer(x: number, y: number):
     if Y % 2 == 0:
-        nummer = X + Y * 16
+        return X + Y * 16
     else:
-        nummer = Y * 16 - X + 15
-    strip.clear()
-    strip.set_pixel_color(nummer, neopixel.hsl(hue, saturation, luminosity))
-    strip.show()
-    X += 1
+        return Y * 16 - X + 15
 kleur = 0
 X = 0
 Y = 0
-nummer = 0
-strip: neopixel.Strip = None
-strip = neopixel.create(DigitalPin.P16, 256, NeoPixelMode.RGB)
+strip = neopixel.create(DigitalPin.P16, 256, NeoPixelMode.RGB_RGB)
 
 def on_forever():
     global kleur, Y, X
     kleur = 0
     Y = 0
-    X = 0
     for index in range(16):
-        for index2 in range(16):
-            zetPixel(X, Y, kleur, 222, 11)
-            kleur += 1
-        basic.pause(200)
-        Y += 1
         X = 0
+        for index2 in range(16):
+            strip.set_pixel_color(convertToNummer(X, Y), neopixel.hsl(kleur, 254, 25))
+            strip.show()
+            X += 1
+            kleur += 1
+            basic.pause(100)
+        Y += 1
+    strip.clear()
 basic.forever(on_forever)
-
-def on_forever2():
-    pass
-basic.forever(on_forever2)
